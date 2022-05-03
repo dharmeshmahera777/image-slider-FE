@@ -1,0 +1,34 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "downlevelIteration": true,
+    "importHelpers": true,
+    "module": "esnext",
+    "outDir": "./dist/ng-image-slider",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "paths": {
+      "ng-image-slider": [
+        "dist/ng-image-slider"
+      ],
+      "ng-image-slider/*": [
+        "dist/ng-image-slider/*"
+      ],
+      "core-js/es7/reflect": [
+        "node_modules/core-js/proposals/reflect-metadata"
+      ],
+    }
+  }
+}

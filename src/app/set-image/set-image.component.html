@@ -1,0 +1,11 @@
+<div>
+    <label>Image Title</label>
+    <input type="text" [(ngModel)] = imageTitle ><br/>
+    <input id="avatar-file-input"
+        class="absolute h-0 w-0 opacity-0 invisible pointer-events-none" type="file"
+        [multiple]="true" [accept]="'image/jpeg, image/png'"
+        (change)="uploadAvatar(avatarFileInput.files)"
+        #avatarFileInput>
+</div>
+
+<button type="button" (click)="addSaveClick()">Submit</button>
