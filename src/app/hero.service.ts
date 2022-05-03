@@ -9,7 +9,8 @@ const httpOptions = {
 @Injectable()
 export class HeroService {
 
-  apiUrl = 'http://localhost:4000/images';
+  // apiUrl = 'http://localhost:4000/images';
+  apiUrl = 'https://image-slider-api.herokuapp.com/images';
   constructor(private http: HttpClient) {}
   
 data:any= 
