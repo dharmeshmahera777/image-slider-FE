@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgImageSliderComponent } from 'ng-image-slider';
 import { HeroService } from '../hero.service';
+import { SpinnerOverlayComponent } from '../shared/spinner/spinner-overlay.component';
+import { SpinnerOverlayService } from '../shared/spinner/spinner-overlay.service';
 
 @Component({
   selector: 'app-home',
@@ -24,10 +26,15 @@ export class HomeComponent {
     sliderAnimationSpeed: any = 1;
     imageObject;
     slideOrderType:string = 'DESC';
+    pageData: any;
 
-    constructor(private heroService: HeroService) {
+    constructor(
+        private heroService: HeroService,
+        private spinnerOverlayService: SpinnerOverlayService
+        ) {
         this.setImageObject();
         this.getAllImages();
+        this.getPageData();
     }
 
     onChangeHandler() {
@@ -47,21 +54,13 @@ export class HomeComponent {
         // this.imageObject = this.heroService.getImagesWithOrder();
     }
 
-    imageOnClick(index) {
-        console.log('index', index);
-    }
+    imageOnClick(index) {}
 
-    lightboxClose() {
-        console.log('lightbox close')
-    }
+    lightboxClose() {}
 
-    arrowOnClick(event) {
-        console.log('arrow click event', event);
-    }
+    arrowOnClick(event) {}
 
-    lightboxArrowClick(event) {
-        console.log('popup arrow click', event);
-    }
+    lightboxArrowClick(event) {}
 
     prevImageClick() {
         this.ds.prev();
@@ -72,10 +71,24 @@ export class HomeComponent {
     }
 
     getAllImages(): void {
+        this.spinnerOverlayService.startSpinning();
         this.heroService.getImagesFromAPI().subscribe(res => {
-          console.log(res);
           this.imageObject = res;
-          
+          this.imageObject = this.imageObject.reverse();
+          this.spinnerOverlayService.stopSpinning();
+
+        })
+      }
+
+      getPageData() {
+        this.spinnerOverlayService.startSpinning();
+        this.heroService.getPageData().subscribe((res) => {
+          this.spinnerOverlayService.stopSpinning();
+          if(res) {
+            this.pageData = res;
+          }
+        }, () => {
+          this.spinnerOverlayService.stopSpinning();
         })
       }
 

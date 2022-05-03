@@ -1,8 +1,10 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="bg">
+    <marquee> <h3>{{pageData?.marquee}}</h3></marquee>
     <h1 class="text-center demo-title-main">
-        Welcome to {{ title }}!
+        {{pageData?.title}}
     </h1>
+    <p>{{pageData?.description}} </p>
     <div class="margin-auto demo-div box-shadow" [ngStyle]="{'width':'100%'}">
         <ng-image-slider #nav
             [images]="imageObject"
@@ -135,4 +137,8 @@
             </td>
         </tr>
     </table> -->
+</div>
+<div class="col-12">
+    <app-footer
+    [footerText]="pageData.footer"></app-footer>
 </div>

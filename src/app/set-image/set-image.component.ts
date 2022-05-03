@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeroService } from '../hero.service';
+import { SpinnerOverlayService } from '../shared/spinner/spinner-overlay.service';
 
 @Component({
   selector: 'app-set-image',
@@ -8,12 +10,19 @@ import { HeroService } from '../hero.service';
 })
 export class SetImageComponent implements OnInit {
   imageObj: any = null;
-  imageTitle = ''
+  imageTitle = '';
+  pageDataForm: any;
+  pageData:any;
+
   constructor(
-    private heroService : HeroService
+    private heroService : HeroService,
+    private spinnerOverlayService: SpinnerOverlayService,
+    private _formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {
+    this.createPageDataForm();
+    this.getPageData();
   }
 
   async uploadAvatar(fileList = []): Promise<any> {
@@ -32,6 +41,15 @@ export class SetImageComponent implements OnInit {
     };
   }
 
+  createPageDataForm(): void {
+    this.pageDataForm = this._formBuilder.group({
+      marquee: ['', Validators.required],
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      footer: ['', Validators.required],
+    });
+  }
+
   addSaveClick() {
     if(this.imageObj && this.imageTitle) {
       this.saveImage();
@@ -42,6 +60,7 @@ export class SetImageComponent implements OnInit {
   }
 
   saveImage(): void {
+    this.spinnerOverlayService.startSpinning();
     const body  = {
       imageUrl: this.imageObj.imageUrl,
       fileName: this.imageObj.fileName,
@@ -49,10 +68,50 @@ export class SetImageComponent implements OnInit {
     } 
     this.heroService.addImages(body)
       .subscribe(
-        (response) => {
-          alert("Images Added successfully")
-          console.log(response);
+        () => {
+          this.spinnerOverlayService.stopSpinning();
+          alert("Images Added successfully");
+        }, () => {
+          this.spinnerOverlayService.stopSpinning();
         }
       );
   }
+
+
+  pageDataSaveClick(): void {
+    if(this.pageDataForm.invalid) {
+      alert("Invalid data");
+      return;
+    }
+    this.savePageData();
+    
+  }
+
+  savePageData() {
+    this.spinnerOverlayService.startSpinning();
+    const formValue = this.pageDataForm.value;
+    this.heroService.savePageData(formValue, this.pageData._id)
+      .subscribe(
+        () => {
+          this.spinnerOverlayService.stopSpinning();
+          alert("Page Data Saved Successfully");
+        }, () => {
+          this.spinnerOverlayService.stopSpinning();
+        }
+      );
+    }
+
+    getPageData() {
+      this.spinnerOverlayService.startSpinning();
+      this.heroService.getPageData().subscribe((res) => {
+        this.spinnerOverlayService.stopSpinning();
+        if(res) {
+          this.pageData = res;
+          this.pageDataForm.patchValue(res);
+          
+        }
+      }, () => {
+        this.spinnerOverlayService.stopSpinning();
+      })
+    }
 }

@@ -2,6 +2,14 @@
     margin: 0px auto;
 }
 
+.bg {
+    padding: 10px;
+}
+
+marquee { 
+    color: red;
+}
+
 body {
     position: relative;
     background-color: #f7f5f5;
@@ -12,6 +20,7 @@ body {
 .demo-title-main {
     display: block;
     font-weight: bold;
+    color: #3498db;
 }
 
 .demo-title-sub {

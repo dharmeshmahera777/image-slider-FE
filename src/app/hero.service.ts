@@ -108,13 +108,23 @@ data:any=
   }
   
   addImages(body: any): Observable<any> {
-    console.log(body);
     const url = this.apiUrl + '/add-image';
+    return this.http.post<any>(url, body);
+  }
+
+  savePageData(body: any, pageDataId): Observable<any> {
+    const url = this.apiUrl + '/save-pagedata/';
+    body.pageDataId = pageDataId;
     return this.http.post<any>(url, body);
   }
 
   getImagesFromAPI() {
     const url = this.apiUrl + '/getAllImages'
+    return this.http.get(url);
+  }
+
+  getPageData() {
+    const url = this.apiUrl + '/getPageData'
     return this.http.get(url);
   }
 }
