@@ -10,22 +10,33 @@
 
 
         <button type="button" (click)="addSaveClick()">Submit</button>
+
+    <h3> Page Detail</h3>
+    <form [formGroup]="pageDataForm">
+        <label for="marquee">Marquee:</label>
+        <input type="text" id="marquee" name="marquee" formControlName="marquee"><br><br>
+        
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" formControlName="title"><br><br>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" formControlName="description"><br><br>
+
+        <label for="footer">Footer:</label>
+        <input type="text" id="footer" name="footer" formControlName="footer"><br><br>
+
+        <button type="submit" (click)="pageDataSaveClick()">Submit</button>
+        </form>
+
+    <ng-container *ngIf="imageObject">
+
+    <h3> Images Detail</h3>
+    <div class="row" *ngFor="let image of imageObject">
+        <div class="row">
+            <img class="imageDiv" *ngIf="image.image" [src]="image.image" alt="image">
+            <div class="ml-10">{{image.title}}</div>
+            <button class="ml-10" (click)="deleteClick(image._id)">Delete</button>
+        </div>
+    </div>
+    </ng-container>
 </div>
-
-
-<h3> Page Detail</h3>
-<form [formGroup]="pageDataForm">
-    <label for="marquee">Marquee:</label>
-    <input type="text" id="marquee" name="marquee" formControlName="marquee"><br><br>
-    
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" formControlName="title"><br><br>
-
-    <label for="description">Description:</label>
-    <input type="text" id="description" name="description" formControlName="description"><br><br>
-
-    <label for="footer">Footer:</label>
-    <input type="text" id="footer" name="footer" formControlName="footer"><br><br>
-
-    <button type="submit" (click)="pageDataSaveClick()">Submit</button>
-</form>

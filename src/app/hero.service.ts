@@ -127,4 +127,9 @@ data:any=
     const url = this.apiUrl + '/getPageData'
     return this.http.get(url);
   }
+
+  deleteImage(imageId): Observable<any> {
+    const url = this.apiUrl + '/deleteImage/' + imageId;
+    return this.http.delete<any>(url);
+  }
 }

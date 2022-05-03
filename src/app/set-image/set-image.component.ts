@@ -13,6 +13,7 @@ export class SetImageComponent implements OnInit {
   imageTitle = '';
   pageDataForm: any;
   pageData:any;
+  imageObject: any;
 
   constructor(
     private heroService : HeroService,
@@ -23,6 +24,7 @@ export class SetImageComponent implements OnInit {
   ngOnInit(): void {
     this.createPageDataForm();
     this.getPageData();
+    this.getAllImages();
   }
 
   async uploadAvatar(fileList = []): Promise<any> {
@@ -71,6 +73,7 @@ export class SetImageComponent implements OnInit {
         () => {
           this.spinnerOverlayService.stopSpinning();
           alert("Images Added successfully");
+          this.getAllImages();
         }, () => {
           this.spinnerOverlayService.stopSpinning();
         }
@@ -114,4 +117,31 @@ export class SetImageComponent implements OnInit {
         this.spinnerOverlayService.stopSpinning();
       })
     }
+
+    getAllImages(): void {
+      this.spinnerOverlayService.startSpinning();
+      this.heroService.getImagesFromAPI().subscribe(res => {
+        this.imageObject = res;
+        this.imageObject = this.imageObject.reverse();
+        this.spinnerOverlayService.stopSpinning();
+      }, () => {
+        this.spinnerOverlayService.stopSpinning();
+      })
+    }
+
+    deleteClick(imageId) {
+      this.deleteImage(imageId);
+    }
+
+    deleteImage(imageId) {
+      this.spinnerOverlayService.startSpinning();
+      this.heroService.deleteImage(imageId).subscribe(() => {
+        alert('Image Deleted Successfully');
+        this.getAllImages();
+        this.spinnerOverlayService.stopSpinning();
+      },
+      () => {
+        this.spinnerOverlayService.stopSpinning();
+      });
+    };
 }
