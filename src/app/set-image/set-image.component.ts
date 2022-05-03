@@ -27,16 +27,16 @@ export class SetImageComponent implements OnInit {
         fileName: fileElement.name
       };
       this.imageObj = obj;
-      console.log(obj);
-      console.log(obj.imageUrl);
 
       // setImage(obj);
     };
   }
 
   addSaveClick() {
-    if(this.imageObj) {
+    if(this.imageObj && this.imageTitle) {
       this.saveImage();
+    } else {
+      alert("Please select images or title")
     }
   
   }
